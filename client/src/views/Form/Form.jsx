@@ -9,10 +9,6 @@ import validation from "../../validation/validation";
 const Form = () => {
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(getCountries());
-  }, []);
-
   const countries = useSelector((state) => state.allCountries);
 
   // Estado local para validar la info del form
@@ -44,26 +40,45 @@ const Form = () => {
   };
   // Guarda la info de los paises seleccionados en el estado local (en la prop countries)
   const handleAddCountry = (event) => {
-    if (form.countries)
+    const countryToAdd = event.target.value;
+    if (!form.countries.includes(countryToAdd))
       setForm({
         ...form,
-        countries: [...form.countries, event.target.value],
+        countries: [...form.countries, countryToAdd],
       });
   };
   // Postea la actividad y la guarda en la BDD
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (errors.name) {
-      return alert("Please enter a valid name");
+    if (
+      !form.name ||
+      !form.difficulty ||
+      !form.duration ||
+      !form.season ||
+      !form.countries
+    ) {
+      return alert("Complete mandatory fields");
     }
-    if (errors.difficulty) {
-      return alert("Please enter a valid difficulty");
+    if (
+      errors.name ||
+      errors.difficulty ||
+      errors.duration ||
+      errors.season ||
+      errors.countries
+    ) {
+      return alert("Wrong input, please fill only with valid data");
     }
-    if (errors.season) {
-      return alert("Please enter a valid season");
-    }
+    // console.log(errors);
+    // if (errors.name) return alert("Please complete mandatory fields!");
+    // else if (errors.difficulty)
+    //   return alert("Please complete mandatory fields!");
+    // else if (errors.duration) return alert("Please complete mandatory fields!");
+    // else if (errors.season) return alert("Please complete mandatory fields!");
+    // else if (errors.countries)
+    //   return alert("Please complete mandatory fields!");
+
     dispatch(postActivity(form));
-    alert("Actividad creada con éxito");
+    alert("Activity created succesfully!");
     setForm({
       name: "",
       difficulty: "",
@@ -77,41 +92,23 @@ const Form = () => {
     //   .catch((err) => alert("Error al crear actividad!"));
   };
 
-  // Valida la info que escribimos en el form
-  // const validate = (form) => {
-  //   const errors = {};
-  //   if (form.difficulty < 1 || form.difficulty > 5) {
-  //     setErrors({ ...errors, difficulty: "Valores incorrectos" });
-  //   } else if (
-  //     form.season !== "Primavera" ||
-  //     form.season !== "Verano" ||
-  //     form.season !== "Otoño" ||
-  //     form.season !== "Invierno"
-  //   ) {
-  //     setErrors({
-  //       ...errors,
-  //       season: "Ingresar Primavera, Verano, Otoño o Invierno",
-  //     });
-  //   }
-  //   return errors;
-  // };
-  // const validate = (form) => {
-  //   if (form.difficulty < 1 || form.difficulty > 5) {
-  //     setErrors({ ...errors, difficulty: "Valores incorrectos" });
-  //   } else if (form.difficulty === "") {
-  //     setErrors({ ...errors, difficulty: "Ingresar dificultad" });
-  //   } else {
-  //     setErrors({ ...errors, difficulty: "" });
-  //   }
-  // };
+  function handleDelete(event) {
+    setForm({
+      ...form,
+      countries: form.countries.filter((country) => country !== event),
+    });
+  }
+
+  useEffect(() => {
+    dispatch(getCountries());
+  }, []);
 
   return (
     <div className={style.formContainer}>
-      <h1 className={style.formTitle}>
-        <p>Create your own activities!</p>
-      </h1>
+      <h1>Create your own activities!</h1>
+
       <form onSubmit={(event) => handleSubmit(event)} className={style.form}>
-        <label>Name*: </label>
+        <label className={style.inputLabel}>Name*: </label>
         <input
           className={style.input}
           name="name"
@@ -120,9 +117,9 @@ const Form = () => {
           value={form.name}
           onChange={handleChange}
         />
-        <div>{errors.name && <span>{errors.name}</span>}</div>
+        {errors.name && <span className={style.errors}>{errors.name}</span>}
 
-        <label>Difficulty*: </label>
+        <label className={style.inputLabel}>Difficulty*: </label>
         <input
           className={style.input}
           name="difficulty"
@@ -131,49 +128,72 @@ const Form = () => {
           value={form.difficulty}
           onChange={handleChange}
         />
-        <div>{errors.difficulty && <span>{errors.difficulty}</span>}</div>
+        {errors.difficulty && (
+          <span className={style.errors}>{errors.difficulty}</span>
+        )}
 
-        <label>Duration(hours): </label>
+        <label className={style.inputLabel}>Duration(hours): </label>
         <input
           className={style.input}
           name="duration"
           type="number"
-          placeholder=" Duration in hours (0 to 8)"
+          placeholder=" Duration hours (1 to 8)..."
           value={form.duration}
           onChange={handleChange}
         />
-        <div>{errors.duration && <span>{errors.duration}</span>}</div>
+        {errors.duration && (
+          <span className={style.errors}>{errors.duration}</span>
+        )}
 
-        <label>Season*: </label>
-        <input
+        <label className={style.inputLabel}>Season*: </label>
+        <select
           className={style.input}
           name="season"
           type="text"
           placeholder="Season (Primavera, Verano, Otoño, Invierno"
           value={form.season}
           onChange={handleChange}
-        />
-        {errors.season && <span>{errors.season}</span>}
+        >
+          <option value="Null"></option>
+          <option value="Primavera">Primavera</option>
+          <option value="Verano">Verano</option>
+          <option value="Otoño">Otoño</option>
+          <option value="Invierno">Invierno</option>
+        </select>
+        {errors.season && <span className={style.errors}>{errors.season}</span>}
 
-        <label>Select countries*: </label>
+        <label className={style.inputLabel}>Select countries*: </label>
         <select
           className={style.input}
           onChange={(event) => handleAddCountry(event)}
         >
           {countries.map((country) => (
             <option key={country.id} value={country.id}>
-              {country.id}
+              {country.name}
             </option>
           ))}
         </select>
-        <ul>
-          <li>{form.countries.map((el) => el + " ,")}</li>
-        </ul>
 
-        <button type="submit">SUBMIT</button>
+        {form.countries.map((el) => (
+          <div className={style.selectedCountriesContainer}>
+            <p className={style.selectedCountries}>{el}</p>
+            <button
+              className={style.deleteButton}
+              onClick={() => handleDelete(el)}
+            >
+              X
+            </button>
+          </div>
+        ))}
+
+        {errors.countries && (
+          <span className={style.errors}>{errors.countries}</span>
+        )}
+
+        <button className={style.buttonSubmit} type="submit">
+          CREATE ACTIVITY
+        </button>
       </form>
-
-      <div></div>
     </div>
   );
 };

@@ -11,16 +11,15 @@ import SearchBar from "../../components/SearchBar/SearchBar";
 
 const Home = () => {
   const dispatch = useDispatch();
-  const countries = useSelector((state) => state.countries);
-  const activities = useSelector((state) => state.activities);
+  const countries = useSelector((state) => state.allCountries);
+  const activities = useSelector((state) => state.allActivities);
 
   useEffect(() => {
     dispatch(getCountries());
-  }, []);
-
-  useEffect(() => {
     dispatch(getActivities());
-  }, []);
+  }, [dispatch]);
+
+  console.log(activities);
 
   //!PAGINADO
   const allCountries = useSelector((state) => state.countries);
@@ -39,11 +38,15 @@ const Home = () => {
   // Filtrar por continente
   function handleFilterContinent(event) {
     dispatch(filterByContinent(event.target.value));
+    setCurrentPage(1);
   }
-  // Filtrar por continente
+
+  // Filtrar por actividad
   function handleFilterActivity(event) {
     dispatch(filterByActivity(event.target.value));
+    setCurrentPage(1);
   }
+
   // Ordenar por nombre
   const [orden, setOrden] = useState("");
   function handleSortName(event) {
@@ -51,6 +54,7 @@ const Home = () => {
     setCurrentPage(1);
     setOrden(`Ordenado ${event.target.value}`);
   }
+
   // Ordenar por poblacion
   const [ordenPop, setOrdenPop] = useState("");
   function handleSortPop(event) {
@@ -85,8 +89,11 @@ const Home = () => {
         <div>
           <h3>FilterByActivity</h3>
           <select onChange={(event) => handleFilterActivity(event)}>
+            <option value="All">All activities</option>
             {activities.map((act) => (
-              <option value={act.name}>{act.name}</option>
+              <option value={act.name} key={act.id}>
+                {act.name}
+              </option>
             ))}
           </select>
         </div>
@@ -108,6 +115,7 @@ const Home = () => {
         </div>
 
         <button
+          className={style.button}
           onClick={(event) => {
             handleClick(event);
           }}
@@ -137,6 +145,7 @@ const Home = () => {
                 subregion={country.subregion}
                 area={country.area}
                 population={country.population}
+                activities={country.Activities}
               />
             );
           })}

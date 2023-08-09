@@ -18,9 +18,6 @@ const Card = (props) => {
       <p>
         <b>Population:</b> {props.population}
       </p>
-      <a>
-        <b>Activities:</b> {props.activities}
-      </a>
     </div>
   );
 };

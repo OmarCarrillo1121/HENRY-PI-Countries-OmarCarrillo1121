@@ -1,0 +1,19 @@
+.landingContainer {
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.button {
+  border: 1px solid black;
+  border-radius: 10px;
+  background-color: hsl(39, 87%, 26%);
+  width: 400px;
+  height: 100px;
+  font-size: larger;
+  font-weight: bold;
+  color: beige;
+  cursor: pointer;
+}

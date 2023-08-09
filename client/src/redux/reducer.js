@@ -12,6 +12,7 @@ import {
 const initialState = {
   allCountries: [],
   countries: [],
+  allActivities: [],
   activities: [],
   detail: [],
 };
@@ -37,9 +38,25 @@ const rootReducer = (state = initialState, action) => {
 
     case FILTER_ACTIVITY:
       const todosCountries = state.allCountries;
-      const activityFilter = todosCountries.filter(
-        (country) => country.id === action.payload
-      );
+      const countriesWithActivities = todosCountries.filter((country) => {
+        return country.Activities.length > 0;
+      });
+
+      const response = [];
+
+      for (let i = 0; i < countriesWithActivities.length; i++) {
+        for (let j = 0; j < countriesWithActivities[i].Activities.length; j++) {
+          if (
+            countriesWithActivities[i].Activities[j].name === action.payload
+          ) {
+            response.push(countriesWithActivities[i]);
+          }
+        }
+      }
+
+      const activityFilter =
+        action.payload === "All" ? countriesWithActivities : response;
+
       return { ...state, countries: activityFilter };
 
     case ORDER_NAME:
@@ -98,7 +115,7 @@ const rootReducer = (state = initialState, action) => {
       return { ...state, countries: action.payload };
 
     case GET_ACTIVITIES:
-      return { ...state, activities: action.payload };
+      return { ...state, allActivities: action.payload };
 
     case GET_DETAIL:
       return { ...state, detail: action.payload };

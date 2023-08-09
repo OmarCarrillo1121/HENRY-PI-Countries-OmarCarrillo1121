@@ -20,11 +20,17 @@ const cleanArray = (arr) =>
 
 // Este controller obtiene todos los paises de la API y los guarda en la BDD
 const saveApiCountriesToDB = async () => {
-  const apiUsersRaw = (await axios.get("http://localhost:5000/countries")).data;
-  const apiUsers = cleanArray(apiUsersRaw);
-  return Country.bulkCreate(apiUsers, {
-    ignoreDuplicates: true,
-  });
+  try {
+    const countries = await Country.findAll();
+    if (!countries.length) {
+      const apiUsersRaw = (await axios.get("http://localhost:5000/countries"))
+        .data;
+      const apiUsers = cleanArray(apiUsersRaw);
+      Country.bulkCreate(apiUsers);
+    }
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
 };
 
 // Este controller trae todos los paises de la BDD
@@ -32,6 +38,7 @@ const getAllDBCountries = async () => {
   return await Country.findAll({
     include: {
       model: Activity,
+      attributes: ["name", "difficulty", "duration", "season"],
       through: {
         attributes: [],
       },
@@ -62,6 +69,7 @@ const getCountryByName = async (name) => {
     include: {
       model: Activity,
       attributes: ["name", "difficulty", "duration", "season"],
+      through: { attributes: [] },
     },
   });
 };
