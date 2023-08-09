@@ -1,14 +1,26 @@
-import style from "./Card.module.css"
+import { Link } from "react-router-dom";
+import style from "./Card.module.css";
 
 const Card = (props) => {
   return (
     <div className={style.card}>
-      <p>Name: {props.name}</p>
-      <img src={props.flag_image} alt=''width={200} />
-      <p>Continent: {props.continent}</p>
-      <p>Subregion: {props.subregion}</p>
-      <p>Area: {props.area}</p>
-      <p>Population: {props.population}</p>
+      <div className={style.title}>
+        <Link to={`/detail/${props.id}`}>{props.name}</Link>
+      </div>
+      <img
+        src={props.flag_image ? props.flag_image : "NOT_IMAGE"}
+        alt=""
+        height={100}
+      />
+      <p>
+        <b>Continent:</b> {props.continent}
+      </p>
+      <p>
+        <b>Population:</b> {props.population}
+      </p>
+      <a>
+        <b>Activities:</b> {props.activities}
+      </a>
     </div>
   );
 };

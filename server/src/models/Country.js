@@ -7,7 +7,7 @@ module.exports = (sequelize) => {
     "Country",
     {
       id: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(3),
         primaryKey: true,
         allowNull: false,
       },
@@ -23,10 +23,10 @@ module.exports = (sequelize) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      // capital: {
-      //   type: DataTypes.STRING,
-      // allowNull: false,
-      // },
+      capital: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      },
       subregion: {
         type: DataTypes.STRING,
         allowNull: true,

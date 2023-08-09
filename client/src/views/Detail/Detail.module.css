@@ -1,0 +1,29 @@
+.detContainer {
+  border: 1px solid black;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 600;
+  height: fit-content;
+  border-radius: 10px;
+  background-color: hsla(0, 15%, 95%, 0.329);
+  gap: 1em;
+  padding: 16px;
+}
+
+.detail {
+  border: 1px solid black;
+  width: fit-content;
+  height: fit-content;
+  border-radius: 10px;
+  background-color: hsl(0, 17%, 95%);
+  padding: 16px;
+}
+
+.title {
+  color: rgb(0, 0, 0);
+  font-size: x-large;
+  font-weight: 800;
+  position: center;
+  padding: 10px;
+}

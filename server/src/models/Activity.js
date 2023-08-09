@@ -26,10 +26,6 @@ module.exports = (sequelize) => {
       type: DataTypes.ENUM("Primavera", "Verano", "Otoño", "Invierno"),
       allowNull: false,
     },
-    created: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: true,
-    },
   },
   { timestamps: false },
   );

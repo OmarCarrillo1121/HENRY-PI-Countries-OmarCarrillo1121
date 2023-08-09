@@ -1,0 +1,29 @@
+[33mcommit c003635e5551f54598981457f2e971bb4f5dbbf9[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m
+Author: Ruben_Rodriguez_38B <omarcarrillo1121@gmail.com>
+Date:   Tue Aug 1 07:26:00 2023 -0600
+
+    Front Pending:  Detail, Landing, Searchbar, Filter, Sort
+
+[33mcommit abe6fd3f2e75e1104bb3cc37bc8a806a7afbdb5c[m
+Author: Ruben_Rodriguez_38B <omarcarrillo1121@gmail.com>
+Date:   Mon Jul 31 19:41:57 2023 -0600
+
+    Cliente creado -Falta agregar redux
+
+[33mcommit 853ed6c8447844d3879c54386b17ea783fa1e860[m
+Author: Ruben_Rodriguez_38B <omarcarrillo1121@gmail.com>
+Date:   Mon Jul 31 14:33:44 2023 -0600
+
+    Cliente creado
+
+[33mcommit 630e2093c6fa11178c510cf23a7a80651c5b0026[m
+Author: Ruben_Rodriguez_38B <omarcarrillo1121@gmail.com>
+Date:   Mon Jul 31 11:19:59 2023 -0600
+
+    Backend first commit, rutas-handlers-controllers OK, checar index-db-models (N-M)
+
+[33mcommit 3c77b25c412b6d53bb54ab5a7951c0f85550fdb0[m
+Author: Ruben_Rodriguez_38B <omarcarrillo1121@gmail.com>
+Date:   Thu Jul 20 10:05:53 2023 -0600
+
+    Inicio de PI
